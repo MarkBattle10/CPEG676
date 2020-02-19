@@ -27,11 +27,6 @@ void calcProbability(struct Word *word, struct State *wordState){
 	word->probability = word->thisWord/word->totalWords;
 }
 
-//currently reads in from a file an array of words (the array with double star
-//next it must go through that array and sort out next and prev words
-//then move into implementing the markov chain algorithm (total number of the
-//same next words/total number of next words) 
-//finally must spit out the words no more than 280 chars into a new file
 int main(){
 	char tweetArr[280];
 	//char *wordArr[280];
@@ -54,14 +49,28 @@ int main(){
 	tweet = fopen("/root/CPEG676/tweet.txt", "r");
 	tweetOutput = fopen("/root/CPEG676/tweetOutput.txt", "w+");
 	fgets(tweetArr, 280, (FILE*)tweet);
+	//while(tweet != EOF){
+	//	fscanf(tweet, "%s", wordArr[fileSize]);
+	//	fileSize++;
+	//}
+	while(index!=strlen(tweetArr)){
+		printf("%c", tweetArr[index]);
+		index++;
+	}
 	//Gets an array of words
 	
 	strcpy(tmpArr, tweetArr);
 	printf("\n");
+	index=0;
+//	while(index!=strlen(tmpArr)){
+//		printf("%c", tmpArr[index]);
+//		index++;
+//	}
 	firstWord = strtok(tmpArr, " ");
 	while(strtok(NULL, " ")){
 		wordCount++;
 	}
+	//printf("%d", wordCount);
 	
 	words = malloc((wordCount+1)*sizeof(char *));
 	words[wordCount] = NULL;
@@ -70,11 +79,13 @@ int main(){
 	words[wordCount2] = malloc(strlen(firstWord)+1);
 	strcpy(words[wordCount2], firstWord);
 	wordCount2 = 1;
-
+//	printf("%s\n",words[1]);
+	
 	while(wordCount2<=wordCount){
 		currentWord = strtok(NULL, " ");
 		words[wordCount2] = malloc(strlen(currentWord)+1);
 		strcpy(words[wordCount2], currentWord);
+//		printf("%s ", words[wordCount2]);
 		wordCount2++;
 	}
 	
@@ -83,6 +94,10 @@ int main(){
 		printf("%s ", words[i]);
 		free(words[i]);
 	}
+//	while(wordCount2){
+//		free(words[wordCount2]);
+//		wordCount2--;
+//	}
 	free(words);
 	
 	/*
