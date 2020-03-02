@@ -16,57 +16,8 @@ struct Word;
 void calcProbability(struct Word *word, struct State *state);
 
 int main(){
-	char tweetArr[280];
-	//char wordArr[280];
-	FILE *tweet;
-	FILE *tweetOutput;
-	int index=0;
-	int indexOut=0;
-	int i = 0;
-	struct State *wordState;
-	struct Word *word;
-
-	tweet = fopen("/root/CPEG676/tweet.txt", "r");
-	tweetOutput = fopen("/root/CPEG676/tweetOutput.txt", "w+");
-	fgets(tweetArr, 280, (FILE*)tweet);
-
-	while(index != 280){
-		if(tweetArr[index]!= ' '){
-			//wordState->currWord = tweetArr[index];
-			//wordArr[i] = wordState->currWord;
-			//i++;
-		}
-		else{
-			//could possibly make a list(maybe binsearchtree to find
-			//words quickly) of Words (structs) so I can go through
-			//to see if the word is already there.
-			//if it is already there, look to see if it already has
-			//the same previous word, if it does then change the
-			//probability of the next words that could be chosen
-
-			//I can get the next word based off the curr word 
-			//obtained above and the prevWord. Using this pair,
-			//I want to add the next word to have a chance of being
-			//chosen after the previous two words. Here I will add
-			//1 to the total words that came after the word pair, 
-			//and add 1 to that word so that I can calculate the
-			//chance it is chosen again
-			for(int ind=0;ind<strlen(wordArr);ind++){
-				
-			}
-			calcProbability(word, wordState);
-
-		}
-		index ++;
-	}
-	while(indexOut != 280){
-		if(indexOut == 0){
-
-		}
-		else{
-			fputc(word->nextWord, tweetOutput);
-		}	
-	}
+	ifstream file;
+	file.open(
 
 
 	return 0;
