@@ -7,24 +7,40 @@
 //one to the word appearing next based on the prev state and then divide by the 
 //total to get the percentage that that word will be next
 //third step is to spit out your own tweet no greater than 280 characters
-#include "stdio.h"
-#include "string.h"
-#include "stdlib.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
 
-struct State;
-struct Word;
-void calcProbability(struct Word *word, struct State *state);
+//struct State;
+//struct Word;
+//void calcProbability(struct Word *word, struct State *state);
 
 int main(){
+	int i=0;
+	string tweetArr[280];
 	ifstream file;
-	file.open(
+	ofstream outFile;
+	file.open("tweet.txt");
+	//getline(file, tweetLine);
+	while(file){
+		file >> tweetArr[i];
+		++i;
+	}
 
+	outFile.open("tweetOut.txt");
+	int j=0;
+	while(j<=i){
+		outFile<<tweetArr[j]<<" ";
+		
+		++j;
+	}
 
 	return 0;
 
 }
 
-
+/*
 struct State{
 	char *prevWord;
 	char *currWord;
@@ -42,3 +58,4 @@ struct Word{
 void calcProbability(struct Word *word, struct State *wordState){
 	word->probability = word->thisWord/word->totalWords;
 }
+*/
