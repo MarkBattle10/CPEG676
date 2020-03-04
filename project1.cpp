@@ -18,8 +18,6 @@
 #include <time.h>
 using namespace std;
 
-//typedef pair<string,string> strPair;
-
 
 int main(){
 	//typedef vector<string> vecString;
@@ -95,33 +93,42 @@ int main(){
   
   
   //dene's attempt
-  //for(iter = markovMMap.begin(); iter != markovMMap.end(); ++iter){
-    
-   // iter->second.first
-
-		//index = index+1;
-	//}	
-
-
-  
-
-  //Mark's Attempt
-  //cout << markovMMap.find(pair<string,string> ("Blessed","are"))->second.first;
-  //for (pair<pair<string,string>, pair<string,double>> elem : markovMMap){
-    //cout << elem.second.first << " " << elem.second.second << endl;
-  //}
   int charCount = 0;
-  outFile << markovMMap.find(pair<string,string> ("empty","empty"))->second.first << " ";
-  charCount += strlen(markovMMap.find(pair<string,string> ("empty","empty"))->second.first) + 1;
-  while(charCount<250){
-    
 
+  pair<multimap<pair<string,string>,pair<string,double>>::iterator, multimap<pair<string,string>,pair<string,double>>::iterator> result = markovMMap.equal_range(pair<string,string> ("empty","empty"));
 
-    charCount += strlen(iter....);
+  vector<string> randProbWord;
+  i = 0;
+  for(iter = result.first; iter != result.second; ++iter){
+    randProbWord.push_back(iter->second.first);
+    //cout << randProbWord[i] << endl;
+    i++;
+  }	
+  //cout << randProbWord.size() << endl;  
+  int randIndex = rand()%randProbWord.size();
+  //cout << randIndex << endl;
+  cout << randProbWord[randIndex] << endl;
+  charCount = strlen(randProbWord[randIndex]);
+  cout << charCount << endl;
+  
+  pair<multimap<pair<string,string>,pair<string,double>>::iterator, multimap<pair<string,string>,pair<string,double>>::iterator> result2 = markovMMap.equal_range(pair<string,string> ("empty",randProbWord[randIndex]));
+
+  while(!randProbWord.empty()){
+    randProbWord.pop_back();
   }
-  //for(iter = markovMMap.begin(); iter != markovMMap.end(); ++iter){
-  //  cout << markovMMap.find(pair<string,string> ("Blessed","are"))->second.first;
-  //}
+
+  i = 0;
+  for(iter = result2.first; iter != result2.second; ++iter){
+    randProbWord.push_back(iter->second.first);
+    //cout << randProbWord[i] << endl;
+    i++;
+  }	
+  //cout << randProbWord.size() << endl;  
+  randIndex = rand()%randProbWord.size();
+  //cout << randIndex << endl;
+  cout << randProbWord[randIndex] << endl;
+  
+  
 
 
 
@@ -135,4 +142,3 @@ int main(){
 	return 0;
 
 }
-
