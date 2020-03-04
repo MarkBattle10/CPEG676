@@ -109,8 +109,8 @@ int main(){
   //cout << randProbWord.size() << endl;  
   int randIndex = rand()%randProbWord.size();
   //cout << randIndex << endl;
-  cout << randProbWord[randIndex] << endl;
-  charCount = randProbWord[randIndex].length() + 1; //the plus one is to account for the spaces
+  outFile << randProbWord[randIndex] << " ";
+  charCount += randProbWord[randIndex].length() + 1; //the plus one is to account for the spaces
   cout << charCount << endl;
   wordTracker.push_back(randProbWord[randIndex]);
 
@@ -119,7 +119,7 @@ int main(){
   }
 
   
-  result = markovMMap.equal_range(pair<string,string> ("empty",wordTrackerIndex[0]));
+  result = markovMMap.equal_range(pair<string,string> ("empty",wordTracker[0]));
 
   i = 0;
   for(iter = result.first; iter != result.second; ++iter){
@@ -130,14 +130,18 @@ int main(){
   //cout << randProbWord.size() << endl;  
   randIndex = rand()%randProbWord.size();
   //cout << randIndex << endl;
-  cout << randProbWord[randIndex] << endl;
-  charCount = randProbWord[randIndex].length() + 1; 
+  outFile << randProbWord[randIndex] << " ";
+  charCount += randProbWord[randIndex].length() + 1; 
   cout << charCount << endl;
   wordTracker.push_back(randProbWord[randIndex]);
   wordTrackerIndex += 1;
+
+  while(!randProbWord.empty()){
+    randProbWord.pop_back();
+  }
   
-  while(charCount < 280){
-    result = markovMMap.equal_range(pair<string,string> ("empty",wordTrackerIndex[0]));
+  while(charCount < 270){
+    result = markovMMap.equal_range(pair<string,string> (wordTracker[wordTrackerIndex-1],wordTracker[wordTrackerIndex])); //previous two words
 
     i = 0;
     for(iter = result.first; iter != result.second; ++iter){
@@ -148,24 +152,18 @@ int main(){
     //cout << randProbWord.size() << endl;  
     randIndex = rand()%randProbWord.size();
     //cout << randIndex << endl;
-    cout << randProbWord[randIndex] << endl;
-    charCount = randProbWord[randIndex].length() + 1; 
+    outFile << randProbWord[randIndex] << " ";
+    charCount += randProbWord[randIndex].length() + 1; 
     cout << charCount << endl;
     wordTracker.push_back(randProbWord[randIndex]);
     wordTrackerIndex += 1;
+
+    while(!randProbWord.empty()){
+      randProbWord.pop_back();
+    }
     
   }
   
-  
-
-
-
-
-  //empty empty
-
-	for(iter = markovMMap.begin(); iter != markovMMap.end(); ++iter){
-		outFile << iter->first.first << " " << iter->first.second << " " << iter->second.first << " " << iter->second.second << endl;
-	}
 
 	return 0;
 
