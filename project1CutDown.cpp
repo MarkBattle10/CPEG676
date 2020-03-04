@@ -10,7 +10,7 @@
 
 
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <fstream>
 #include <vector>
 #include <map>
@@ -21,14 +21,13 @@ using namespace std;
 
 int main(){
 	//typedef vector<string> vecString;
-  	srand(time(NULL));
-	
+  srand(time(NULL));
 	//multimap<pair<string,string>, pair<string,double>> markovMMap;
 	multimap<pair<string,string>, string> markovMMap;
 	
 	int i=0;
 	vector<string> tweetVect;
-  	string strTweet;
+  string strTweet;
 	ifstream file;
 	ofstream outFile;
 	file.open("tweet2.txt");
@@ -44,18 +43,18 @@ int main(){
 		
 		}
 		else{
-			markovMMap.insert(make_pair(make_pair("empty","empty"),tweetVect[i],0));
+			markovMMap.insert(make_pair(make_pair("empty","empty"),tweetVect[i]));
 	
 		}
 		i++;
 	}
 
-	multimap<pair<string,string>,string>::iterator iter1;
-	multimap<pair<string,string>,string>::iterator iter2;
+	//multimap<pair<string,string>,string>::iterator iter1;
+	//multimap<pair<string,string>,string>::iterator iter2;
 	
 	outFile.open("tweetOut2.txt");	
 	
-	multimap<pair<string,string>,pair<string,double>>::iterator iter;
+	multimap<pair<string,string>,string>::iterator iter;
 
   
   
@@ -111,16 +110,21 @@ int main(){
     for(iter = result.first; iter != result.second; ++iter){
       randProbWord.push_back(iter->second);
       i++;
-    }	 
-    randIndex = rand()%randProbWord.size();
-    outFile << randProbWord[randIndex] << " ";
-    charCount += randProbWord[randIndex].length() + 1; 
-    cout << charCount << endl;
-    wordTracker.push_back(randProbWord[randIndex]);
-    wordTrackerIndex += 1;
+    }
+    if(randProbWord.size() == 0){
+      charCount = 281; //end the output tweet because the probability that there are no more words has been chosen
+    }	
+    else{ 
+      randIndex = rand()%randProbWord.size();
+      outFile << randProbWord[randIndex] << " ";
+      charCount += randProbWord[randIndex].length() + 1; 
+      cout << charCount << endl;
+      wordTracker.push_back(randProbWord[randIndex]);
+      wordTrackerIndex += 1;
 
-    while(!randProbWord.empty()){
-      randProbWord.pop_back();
+      while(!randProbWord.empty()){
+        randProbWord.pop_back();
+      }
     }
     
   }
