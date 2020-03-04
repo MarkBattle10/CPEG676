@@ -10,7 +10,7 @@
 
 
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <fstream>
 #include <vector>
 #include <map>
@@ -94,6 +94,8 @@ int main(){
   
   //dene's attempt
   int charCount = 0;
+  vector<string> wordTracker; //to keep track of the words placed into our tweet
+  int wordTrackerIndex = 0;
 
   pair<multimap<pair<string,string>,pair<string,double>>::iterator, multimap<pair<string,string>,pair<string,double>>::iterator> result = markovMMap.equal_range(pair<string,string> ("empty","empty"));
 
@@ -108,17 +110,19 @@ int main(){
   int randIndex = rand()%randProbWord.size();
   //cout << randIndex << endl;
   cout << randProbWord[randIndex] << endl;
-  charCount = strlen(randProbWord[randIndex]);
+  charCount = randProbWord[randIndex].length() + 1; //the plus one is to account for the spaces
   cout << charCount << endl;
-  
-  pair<multimap<pair<string,string>,pair<string,double>>::iterator, multimap<pair<string,string>,pair<string,double>>::iterator> result2 = markovMMap.equal_range(pair<string,string> ("empty",randProbWord[randIndex]));
+  wordTracker.push_back(randProbWord[randIndex]);
 
   while(!randProbWord.empty()){
     randProbWord.pop_back();
   }
 
+  
+  result = markovMMap.equal_range(pair<string,string> ("empty",wordTrackerIndex[0]));
+
   i = 0;
-  for(iter = result2.first; iter != result2.second; ++iter){
+  for(iter = result.first; iter != result.second; ++iter){
     randProbWord.push_back(iter->second.first);
     //cout << randProbWord[i] << endl;
     i++;
@@ -127,6 +131,30 @@ int main(){
   randIndex = rand()%randProbWord.size();
   //cout << randIndex << endl;
   cout << randProbWord[randIndex] << endl;
+  charCount = randProbWord[randIndex].length() + 1; 
+  cout << charCount << endl;
+  wordTracker.push_back(randProbWord[randIndex]);
+  wordTrackerIndex += 1;
+  
+  while(charCount < 280){
+    result = markovMMap.equal_range(pair<string,string> ("empty",wordTrackerIndex[0]));
+
+    i = 0;
+    for(iter = result.first; iter != result.second; ++iter){
+      randProbWord.push_back(iter->second.first);
+      //cout << randProbWord[i] << endl;
+      i++;
+    }	
+    //cout << randProbWord.size() << endl;  
+    randIndex = rand()%randProbWord.size();
+    //cout << randIndex << endl;
+    cout << randProbWord[randIndex] << endl;
+    charCount = randProbWord[randIndex].length() + 1; 
+    cout << charCount << endl;
+    wordTracker.push_back(randProbWord[randIndex]);
+    wordTrackerIndex += 1;
+    
+  }
   
   
 
