@@ -21,14 +21,14 @@ using namespace std;
 
 int main(){
 	//typedef vector<string> vecString;
-  srand(time(NULL));
+  	srand(time(NULL));
 	
-	multimap<pair<string,string>, pair<string,double>> markovMMap;
-	//multimap<strPair, string> markovMMap;
+	//multimap<pair<string,string>, pair<string,double>> markovMMap;
+	multimap<pair<string,string>, string> markovMMap;
+	
 	int i=0;
 	vector<string> tweetVect;
-	//string tweetArr[280];
-  string strTweet;
+  	string strTweet;
 	ifstream file;
 	ofstream outFile;
 	file.open("tweet2.txt");
@@ -36,58 +36,23 @@ int main(){
 	while(file >> strTweet){
 		tweetVect.push_back(strTweet);
 		if(i>1){
-			markovMMap.insert(make_pair(make_pair(tweetVect[i-2],tweetVect[i-1]),make_pair(tweetVect[i],0)));
+			markovMMap.insert(make_pair(make_pair(tweetVect[i-2],tweetVect[i-1]),tweetVect[i]));
 
 		}
 		else if(i==1){
-			markovMMap.insert(make_pair(make_pair("empty",tweetVect[i-1]),make_pair(tweetVect[i],0)));
+			markovMMap.insert(make_pair(make_pair("empty",tweetVect[i-1]),tweetVect[i]));
 		
 		}
 		else{
-			markovMMap.insert(make_pair(make_pair("empty","empty"),make_pair(tweetVect[i],0)));
+			markovMMap.insert(make_pair(make_pair("empty","empty"),tweetVect[i],0));
 	
 		}
 		i++;
 	}
 
-	multimap<pair<string,string>,pair<string,double>>::iterator iter1;
-	multimap<pair<string,string>,pair<string,double>>::iterator iter2;
+	multimap<pair<string,string>,string>::iterator iter1;
+	multimap<pair<string,string>,string>::iterator iter2;
 	
-//	int countArr[markovMMap.size()];
-//	int index = 0;
-//	int totalCount;
-	for(iter1 = markovMMap.begin(); iter1 != markovMMap.end(); ++iter1){
-//		totalCount = 0;
-		for(iter2 = markovMMap.begin(); iter2 != markovMMap.end(); ++iter2){
-			//if(iter2 != iter1){
-				if((iter2->first.first == iter1->first.first) && (iter2->first.second == iter1->first.second)){
-          if(iter2->second.first == iter1->second.first){
-            iter2->second.second = iter2->second.second +1;
-
-          }
-//          totalCount = totalCount+1;
-				}
-        
-        
-				//iter2->second.second = iter2->second.second + 1;
-        //totalCount = totalCount+1;
-			//}
-			
-		}
-//		countArr[index] = totalCount;
-//		index = index+1;
-	}
-	
-  /*
-	index = 0;
-	for(iter1 = markovMMap.begin(); iter1 != markovMMap.end(); ++iter1){
-    //cout<< countArr[index]<< " ";
-		if(iter1->second.second != 0){
-			iter1->second.second = (iter1->second.second)/(countArr[index]);	
-		}
-		index = index+1;
-	}	
-	*/
 	outFile.open("tweetOut2.txt");	
 	
 	multimap<pair<string,string>,pair<string,double>>::iterator iter;
@@ -99,12 +64,12 @@ int main(){
   vector<string> wordTracker; //to keep track of the words placed into our tweet
   int wordTrackerIndex = 0;
 
-  pair<multimap<pair<string,string>,pair<string,double>>::iterator, multimap<pair<string,string>,pair<string,double>>::iterator> result = markovMMap.equal_range(pair<string,string> ("empty","empty"));
+  pair<multimap<pair<string,string>,string>::iterator, multimap<pair<string,string>,string>::iterator> result = markovMMap.equal_range(pair<string,string> ("empty","empty"));
 
   vector<string> randProbWord;
   i = 0;
   for(iter = result.first; iter != result.second; ++iter){
-    randProbWord.push_back(iter->second.first);
+    randProbWord.push_back(iter->second);
     //cout << randProbWord[i] << endl;
     i++;
   }	
@@ -125,13 +90,10 @@ int main(){
 
   i = 0;
   for(iter = result.first; iter != result.second; ++iter){
-    randProbWord.push_back(iter->second.first);
-    //cout << randProbWord[i] << endl;
+    randProbWord.push_back(iter->second);
     i++;
-  }	
-  //cout << randProbWord.size() << endl;  
+  }	  
   randIndex = rand()%randProbWord.size();
-  //cout << randIndex << endl;
   outFile << randProbWord[randIndex] << " ";
   charCount += randProbWord[randIndex].length() + 1; 
   cout << charCount << endl;
@@ -147,13 +109,10 @@ int main(){
 
     i = 0;
     for(iter = result.first; iter != result.second; ++iter){
-      randProbWord.push_back(iter->second.first);
-      //cout << randProbWord[i] << endl;
+      randProbWord.push_back(iter->second);
       i++;
-    }	
-    //cout << randProbWord.size() << endl;  
+    }	 
     randIndex = rand()%randProbWord.size();
-    //cout << randIndex << endl;
     outFile << randProbWord[randIndex] << " ";
     charCount += randProbWord[randIndex].length() + 1; 
     cout << charCount << endl;
